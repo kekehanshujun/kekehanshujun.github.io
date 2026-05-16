@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Elyan Labs, CVPR 2026, and the Value of Small Hardware Labs</title>
+    <meta name="description" content="A short note on Elyan Labs' CVPR 2026 GRAIL-V workshop acceptance and why RustChain's hardware story matters.">
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #182033;
+        --muted: #5d667a;
+        --line: #d9e1ef;
+        --soft: #f6f8fc;
+        --accent: #1f6feb;
+        --warm: #b45309;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--ink);
+        background: #fff;
+        line-height: 1.68;
+      }
+      header, main, footer {
+        width: min(900px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+      header {
+        padding: 44px 0 26px;
+        border-bottom: 1px solid var(--line);
+      }
+      .back {
+        display: inline-block;
+        margin-bottom: 26px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 700;
+      }
+      h1 {
+        margin: 0;
+        max-width: 820px;
+        font-size: clamp(32px, 6vw, 54px);
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+      .dek {
+        max-width: 760px;
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 18px;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .meta span {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 5px 10px;
+        background: var(--soft);
+      }
+      main { padding: 30px 0 56px; }
+      article { font-size: 17px; }
+      h2 {
+        margin-top: 34px;
+        font-size: 24px;
+        line-height: 1.25;
+      }
+      a { color: var(--accent); }
+      .note {
+        margin: 28px 0;
+        padding: 18px 20px;
+        border: 1px solid var(--line);
+        border-left: 5px solid var(--warm);
+        background: var(--soft);
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 20px 0 38px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="back" href="index.html">Back to home</a>
+      <h1>Elyan Labs, CVPR 2026, and the Value of Small Hardware Labs</h1>
+      <p class="dek">
+        A note on the GRAIL-V workshop acceptance for Elyan Labs and why the
+        RustChain hardware story makes the research more interesting than a
+        standard lab announcement.
+      </p>
+      <div class="meta">
+        <span>May 16, 2026</span>
+        <span>CVPR 2026</span>
+        <span>RustChain</span>
+      </div>
+    </header>
+
+    <main>
+      <article>
+        <p>
+          Elyan Labs has a paper accepted to the GRAIL-V workshop at CVPR 2026:
+          <a href="https://openreview.net/forum?id=pXjE6Tqp70">"Emotional
+          Vocabulary as Semantic Grounding: How Language Register Affects
+          Diffusion Efficiency in Video Generation"</a>. On the surface, that is
+          a computer vision result about language, register, and video
+          generation. What makes it stand out to me is the context around it:
+          a small lab, built around practical agent tooling and repurposed
+          hardware, producing work that belongs in the same conversation as
+          much larger research groups.
+        </p>
+
+        <p>
+          The phrase "emotional vocabulary" can sound soft until you look at
+          how image and video models are actually used. Prompts are not only
+          lists of objects. They carry mood, register, intent, pacing, and
+          cultural shorthand. A phrase like "clinical product demo" pushes a
+          model toward one distribution; "pawn shop lab at midnight" pushes it
+          somewhere else. If a paper can show that language register changes
+          diffusion efficiency, it is really studying the interface between
+          human expression and model computation.
+        </p>
+
+        <p>
+          That matters for creators, agents, and platforms such as BoTTube
+          because video generation is not just about making frames. It is about
+          giving an agent a compact way to describe the world it wants to
+          render. Better prompt semantics can mean fewer failed generations,
+          lower compute cost, and outputs that are closer to a user's intent.
+          In that sense, language register becomes an engineering parameter,
+          not just a writing style.
+        </p>
+
+        <div class="note">
+          The acceptance is also an argument for small, focused labs. The story
+          is not "a giant compute budget won again"; it is closer to "a team
+          with constrained hardware found a sharp research question."
+        </div>
+
+        <h2>Why the RustChain Context Matters</h2>
+        <p>
+          Elyan Labs is connected to the broader
+          <a href="https://github.com/Scottcjn/Rustchain">RustChain</a>
+          ecosystem, whose premise is unusually concrete: old and low-power
+          machines still have value. RustChain's Proof-of-Antiquity idea
+          rewards hardware history rather than treating every aging machine as
+          waste. Whether someone agrees with every economic detail or not, the
+          framing is useful. It asks what a lab can do when it stops assuming
+          that progress always means buying the newest accelerator.
+        </p>
+
+        <p>
+          This connects back to diffusion efficiency. If the research question
+          is how language can make generation more efficient, and the lab
+          culture is shaped by limited and repurposed compute, then the work has
+          a practical pressure behind it. Efficient generation is not an
+          abstract benchmark. It is the difference between an agent producing
+          one useful video and burning cycles on ten unusable attempts.
+        </p>
+
+        <h2>What I Find Interesting</h2>
+        <p>
+          The most interesting part is the bridge between emotional language
+          and systems constraints. In many AI demos, style is decoration added
+          after the technical work is done. Here, style and vocabulary appear to
+          be part of the technical pathway. That is a better way to think about
+          creative AI systems. The prompt is not a caption pasted on top of a
+          model; it is part of the control surface.
+        </p>
+
+        <p>
+          For agent-native media, this matters even more. An autonomous agent
+          that writes prompts for video generation needs a vocabulary that is
+          stable, expressive, and efficient. If register affects output quality
+          or sampling efficiency, then agents need to learn not only what to
+          request but how to request it. That is a small detail with large
+          implications for automated creative workflows.
+        </p>
+
+        <h2>Closing Thought</h2>
+        <p>
+          CVPR is one of the highest-signal venues in computer vision. Seeing
+          Elyan Labs appear in that orbit through the GRAIL-V workshop is a
+          reminder that research does not only come from polished campuses and
+          massive budgets. Sometimes it comes from a lab that treats pawn shop
+          hardware, language, agents, and video generation as one connected
+          system. That is the kind of research story I want to keep watching.
+        </p>
+      </article>
+    </main>
+
+    <footer>
+      Written by kekehanshujun. Links: OpenReview paper and RustChain GitHub.
+    </footer>
+  </body>
+</html>
