@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Testing RustChain and BoTTube: Notes from a New Contributor</title>
+    <meta name="description" content="A hands-on first look at RustChain, Proof-of-Antiquity, RTC wallet setup, and BoTTube as an agent-native video platform.">
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #172033;
+        --muted: #5d667a;
+        --line: #d8dfec;
+        --soft: #f5f7fb;
+        --accent: #2368d8;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--ink);
+        background: #ffffff;
+        line-height: 1.65;
+      }
+      header, main, footer {
+        width: min(880px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+      header {
+        padding: 42px 0 24px;
+        border-bottom: 1px solid var(--line);
+      }
+      .back {
+        display: inline-block;
+        margin-bottom: 28px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 700;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(32px, 6vw, 54px);
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+      .dek {
+        max-width: 760px;
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 18px;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .meta span {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 5px 10px;
+        background: var(--soft);
+      }
+      main { padding: 28px 0 54px; }
+      article {
+        font-size: 17px;
+      }
+      h2 {
+        margin-top: 34px;
+        font-size: 24px;
+        line-height: 1.25;
+      }
+      a { color: var(--accent); }
+      .note {
+        margin-top: 34px;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        background: var(--soft);
+        border-radius: 8px;
+      }
+      footer {
+        padding: 24px 0 42px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="back" href="/">Back to home</a>
+      <h1>Testing RustChain and BoTTube: Notes from a New Contributor</h1>
+      <p class="dek">
+        RustChain caught my attention because it treats old hardware, wallet identity, and community contribution as part of the same network instead of separating mining, documentation, and feedback into unrelated activities.
+      </p>
+      <div class="meta" aria-label="Article metadata">
+        <span>Published May 16, 2026</span>
+        <span>RustChain</span>
+        <span>BoTTube</span>
+        <span>RTC contributor notes</span>
+      </div>
+    </header>
+
+    <main>
+      <article>
+        <p>
+          I spent time testing <a href="https://github.com/Scottcjn/Rustchain">RustChain</a>, creating an RTC wallet, reading the bounty flow, and browsing related videos on <a href="https://bottube.ai">BoTTube</a>. The project is unusual because its central idea, Proof-of-Antiquity, does not simply reward the newest and fastest machine. Instead, it tries to make real hardware identity and hardware diversity part of the network. That gives the project a different feeling from many crypto experiments that only talk about speed, liquidity, or pure speculation.
+        </p>
+
+        <p>
+          The first practical step was wallet creation. The RTC wallet flow makes a clear distinction between the public address, which can be pasted into bounty claims, and the private key file, which must stay local. That separation is important for new contributors because many small bounty tasks ask for the RTC address as proof and payout routing. The private key warning is direct enough: anyone with the key can spend the RTC, so it should not be posted in GitHub issues, social media, or screenshots.
+        </p>
+
+        <h2>What Felt Different</h2>
+        <p>
+          The interesting part of RustChain is not only the token. The project is trying to connect vintage hardware, mining, verification, wallet ownership, and agent work. While testing on Windows, I noticed that the miner and dry-run language can still be confusing. Some documentation and videos refer to flows that are easier on Unix-like systems, while Windows users may need clearer command paths and platform-specific notes. That is not a fatal flaw, but it is exactly the kind of practical detail that matters when a new contributor wants to verify a machine or submit a bounty claim.
+        </p>
+
+        <p>
+          BoTTube gives the ecosystem a second layer. It is not just a normal short-video site. It is framed as an AI-native video platform where agents and humans can publish short clips, vote, comment, and connect activity to BAN or RTC rewards. I browsed RustChain-related videos, including a Windows miner walkthrough and several Proof of Physical AI explainers. The strongest videos were the ones that showed actual terminal output, commands, and review checklists. They helped translate a technical concept into something a contributor could follow.
+        </p>
+
+        <h2>Where It Can Improve</h2>
+        <p>
+          The main improvement area is first-time clarity. A visitor sees terms like RTC, wRTC, Proof-of-Antiquity, BoTTube, Beacon, bounties, mining, and agents very quickly. Each idea is interesting, but the onboarding path could be simpler. A good first-run path might be: create wallet, save private key, copy public address, try one safe read-only command, then complete one small bounty. The same is true for BoTTube: watch first, search a topic, understand who created the clip, then decide whether to create an account.
+        </p>
+
+        <p>
+          I also found that the community bounty model is a useful feedback mechanism. Small tasks such as reviewing a page, reporting an accessibility issue, writing a first impression, or curating useful videos create real signals for the project. The risk is that low-effort claims can create noise, so the best claims should include specific links, observed behavior, and honest limitations. For example, a bug report should include the page URL, reproduction steps, expected result, actual result, browser or device context, and screenshots when possible.
+        </p>
+
+        <h2>My Takeaway</h2>
+        <p>
+          RustChain is still rough in places, but the combination is distinctive: old hardware, public contribution, agent workflows, and on-chain-style rewards. BoTTube makes that ecosystem more visible by turning technical workflows into short videos. I would not describe the project as polished yet. I would describe it as active, experimental, and worth watching if you care about agent economies, decentralized infrastructure, or hardware-based identity.
+        </p>
+
+        <p class="note">
+          Disclosure: I may receive RTC compensation for publishing this article. The notes above reflect my actual testing experience and include both positive observations and areas that could be clearer.
+        </p>
+      </article>
+    </main>
+
+    <footer>
+      <span>Article by kekehanshujun. Project links: <a href="https://github.com/Scottcjn/Rustchain">RustChain</a> and <a href="https://bottube.ai">BoTTube</a>.</span>
+    </footer>
+  </body>
+</html>
