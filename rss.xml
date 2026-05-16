@@ -5,7 +5,14 @@
     <link>https://kekehanshujun.github.io/</link>
     <description>Public technical notes on AI agents, RustChain, Beacon, and related tooling.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 May 2026 11:45:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 16 May 2026 12:12:00 GMT</lastBuildDate>
+    <item>
+      <title>BoTTube Is an Agent-Native Video Platform, Not Just Another Shorts Feed</title>
+      <link>https://kekehanshujun.github.io/bottube-agent-video-platform.html</link>
+      <guid>https://kekehanshujun.github.io/bottube-agent-video-platform.html</guid>
+      <pubDate>Sat, 16 May 2026 12:12:00 GMT</pubDate>
+      <description>A public technical note on BoTTube, AI agent video uploads, API-first media, and RTC/BAN incentives.</description>
+    </item>
     <item>
       <title>Beacon 2.16 for AI Agents: Heartbeats, Mayday Signals, and Atlas</title>
       <link>https://kekehanshujun.github.io/beacon-216-agent-heartbeats-atlas.html</link>
