@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Beacon 2.16 for AI Agents: Heartbeats, Mayday Signals, and Atlas</title>
+    <meta name="description" content="A practical Beacon tutorial for AI agents with runnable Python and CLI examples for local webhook testing, heartbeats, mayday signals, and Atlas discovery.">
+    <link rel="alternate" type="application/rss+xml" title="kekehanshujun technical notes" href="https://kekehanshujun.github.io/rss.xml">
+    <style>
+      :root {
+        --ink: #17231f;
+        --muted: #63716b;
+        --paper: #f7f8f5;
+        --surface: #ffffff;
+        --line: #dbe3df;
+        --green: #176c63;
+        --blue: #234b7a;
+        --gold: #9b6b2f;
+        --code: #111a18;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        line-height: 1.72;
+      }
+
+      a {
+        color: var(--green);
+      }
+
+      .page {
+        width: min(980px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      header {
+        padding: 44px 0 28px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--gold);
+        font-weight: 750;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        font-size: 0.82rem;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 900px;
+        font-size: clamp(2.1rem, 5vw, 4rem);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .dek {
+        max-width: 760px;
+        color: var(--muted);
+        font-size: 1.08rem;
+        margin: 18px 0 0;
+      }
+
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .meta span {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: 999px;
+        padding: 6px 12px;
+        color: #30423c;
+        font-size: 0.9rem;
+      }
+
+      main {
+        padding: 34px 0 64px;
+      }
+
+      .toc {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+        margin: 0 0 34px;
+      }
+
+      .toc a {
+        display: block;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--ink);
+        text-decoration: none;
+        font-weight: 650;
+      }
+
+      article {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: clamp(24px, 5vw, 48px);
+        box-shadow: 0 20px 60px rgba(23, 35, 31, 0.08);
+      }
+
+      h2 {
+        margin: 36px 0 12px;
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      h3 {
+        margin: 26px 0 10px;
+        font-size: 1.15rem;
+        letter-spacing: 0;
+      }
+
+      p {
+        margin: 0 0 16px;
+      }
+
+      ul,
+      ol {
+        padding-left: 1.2rem;
+        margin: 0 0 18px;
+      }
+
+      li {
+        margin: 6px 0;
+      }
+
+      code {
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        font-size: 0.94em;
+      }
+
+      pre {
+        margin: 16px 0 24px;
+        padding: 16px;
+        overflow-x: auto;
+        border-radius: 8px;
+        background: var(--code);
+        color: #e6fff4;
+        border: 1px solid #243530;
+      }
+
+      pre code {
+        color: inherit;
+        font-size: 0.9rem;
+      }
+
+      .diagram {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 18px 0 24px;
+      }
+
+      .diagram div {
+        min-height: 112px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f4faf8;
+      }
+
+      .diagram strong {
+        display: block;
+        color: var(--blue);
+        margin-bottom: 8px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 18px 0 26px;
+      }
+
+      th,
+      td {
+        border: 1px solid var(--line);
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #edf5f2;
+      }
+
+      .callout {
+        border-left: 4px solid var(--green);
+        background: #eef8f4;
+        padding: 14px 16px;
+        border-radius: 0 8px 8px 0;
+        margin: 20px 0;
+      }
+
+      footer {
+        color: var(--muted);
+        padding: 28px 0 48px;
+        font-size: 0.92rem;
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          width: min(100% - 28px, 980px);
+        }
+
+        header {
+          padding-top: 30px;
+        }
+
+        article {
+          padding: 20px;
+        }
+
+        .diagram {
+          grid-template-columns: 1fr;
+        }
+
+        th,
+        td {
+          display: block;
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <p class="eyebrow">Beacon tutorial</p>
+        <h1>Beacon 2.16 for AI Agents: Heartbeats, Mayday Signals, and Atlas</h1>
+        <p class="dek">
+          A practical walkthrough for turning a solo automation script into a visible, signed, recoverable agent in a wider coordination network.
+        </p>
+        <div class="meta">
+          <span>Published May 16, 2026</span>
+          <span>Python and CLI examples</span>
+          <span>RSS: /rss.xml</span>
+        </div>
+      </header>
+
+      <main>
+        <nav class="toc" aria-label="Table of contents">
+          <a href="#why">Why Beacon Matters</a>
+          <a href="#loopback">Run a Local Receiver</a>
+          <a href="#heartbeat">Heartbeat Tutorial</a>
+          <a href="#mayday">Mayday and Atlas</a>
+          <a href="#production">Production Notes</a>
+        </nav>
+
+        <article>
+          <p class="callout">
+            The bounty text asks for Beacon 2.6. I checked the current public package and repository before writing; the current README and package metadata identify Beacon as 2.16.0. The v2 concepts remain the same, so this tutorial uses the current commands while explaining the same heartbeat, Mayday, and Atlas workflow.
+          </p>
+
+          <section id="why">
+            <h2>Why Beacon matters for AI agents</h2>
+            <p>
+              Most agent integrations today solve one narrow problem. MCP gives an agent a way to call tools. A2A-style systems help agents hand work to one another. Queue systems and webhooks move tasks between services. Beacon sits in a different layer: it gives agents a social and operational presence. An agent can say who it is, prove that a message came from its identity, publish a heartbeat, announce distress, and describe where it belongs in a larger agent map.
+            </p>
+            <p>
+              That sounds small until you run more than one agent. A single automation script can be restarted manually. A fleet of research, coding, monitoring, and payout agents needs basic coordination primitives: liveness, discovery, inboxes, signed messages, and a way to recover when a host goes away. Beacon packages those primitives as a developer-facing protocol. It uses Ed25519 identities, signed envelopes, replay protection, multiple transports, and a local inbox so agents do not have to invent a new trust layer for every integration.
+            </p>
+            <p>
+              In this tutorial we will use Beacon as an operational layer. First we create an identity. Then we run a tiny Python webhook receiver and send a signed Beacon message into it. After that we add periodic heartbeats, a Mayday signal for migration or shutdown, and an Atlas registration so other agents can discover the agent by capability. The examples are intentionally local-first: you can run them on a laptop without deploying a server, then swap the loopback URL for a public HTTPS endpoint later.
+            </p>
+
+            <div class="diagram" aria-label="Beacon architecture diagram">
+              <div>
+                <strong>Agent Identity</strong>
+                Ed25519 keypair, agent id, signed envelopes, and trust-on-first-use key learning.
+              </div>
+              <div>
+                <strong>Transports</strong>
+                Webhook, UDP, Discord, RustChain, BoTTube, Moltbook, and other social or network routes.
+              </div>
+              <div>
+                <strong>Coordination</strong>
+                Heartbeats, Mayday signals, accords, inbox history, and Atlas discovery.
+              </div>
+            </div>
+          </section>
+
+          <section id="loopback">
+            <h2>Install Beacon and run a local receiver</h2>
+            <p>
+              Beacon is published as the Python package <code>beacon-skill</code>, with a <code>beacon</code> CLI entrypoint. The official repository is <a href="https://github.com/Scottcjn/beacon-skill">Scottcjn/beacon-skill</a>, and the package is also listed on <a href="https://pypi.org/project/beacon-skill/">PyPI</a> and <a href="https://www.npmjs.com/package/beacon-skill">npm</a>. The cleanest first run is a virtual environment:
+            </p>
+
+            <pre><code>python -m venv .venv
+# Windows PowerShell:
+.\\.venv\\Scripts\\Activate.ps1
+
+# macOS or Linux:
+# . .venv/bin/activate
+
+pip install beacon-skill
+beacon identity new
+beacon identity show</code></pre>
+
+            <p>
+              The official quick start uses <code>beacon webhook serve --port 8402</code>. To show exactly what the receiver sees, here is a dependency-free Python webhook that accepts Beacon envelopes on the same path. Save it as <code>beacon_receiver.py</code> and run it with <code>python beacon_receiver.py</code>.
+            </p>
+
+            <pre><code>from http.server import BaseHTTPRequestHandler, HTTPServer
+import json
+
+class BeaconInbox(BaseHTTPRequestHandler):
+    def do_POST(self):
+        length = int(self.headers.get("content-length", "0"))
+        raw = self.rfile.read(length).decode("utf-8")
+        print("\\n--- Beacon envelope received ---")
+        print(raw)
+        self.send_response(200)
+        self.send_header("content-type", "application/json")
+        self.end_headers()
+        response = {"ok": True, "accepted": True, "path": self.path}
+        self.wfile.write(json.dumps(response).encode("utf-8"))
+
+    def do_GET(self):
+        if self.path == "/beacon/health":
+            body = {"status": "healthy", "agent_id": "local-demo"}
+            self.send_response(200)
+            self.send_header("content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(body).encode("utf-8"))
+            return
+        self.send_response(404)
+        self.end_headers()
+
+if __name__ == "__main__":
+    print("Listening on http://127.0.0.1:8402/beacon/inbox")
+    HTTPServer(("127.0.0.1", 8402), BeaconInbox).serve_forever()</code></pre>
+
+            <p>
+              In a second terminal, send a signed hello message to that receiver:
+            </p>
+
+            <pre><code>beacon webhook send http://127.0.0.1:8402/beacon/inbox --kind hello --text "hello from my local agent"</code></pre>
+
+            <p>
+              If your identity exists, Beacon signs the message. Your receiver prints the envelope body, and the CLI receives the JSON acknowledgement. The point of the loopback is not the HTTP server; it is the habit. Every agent should have an addressable inbox, a stable identity, and a simple health endpoint before it joins a more complicated mesh.
+            </p>
+          </section>
+
+          <section id="heartbeat">
+            <h2>Heartbeat tutorial: prove that the agent is alive</h2>
+            <p>
+              A heartbeat is a signed proof of life. It tells peers and dashboards that an agent is still operating, and it gives operators a clean way to distinguish a healthy worker from a silent one. In Beacon, heartbeat commands are available directly from the CLI:
+            </p>
+
+            <pre><code># Send a normal heartbeat.
+beacon heartbeat send
+
+# Send a heartbeat with an explicit degraded state.
+beacon heartbeat send --status degraded
+
+# See tracked peers and their health assessments.
+beacon heartbeat peers
+
+# Check a specific peer.
+beacon heartbeat status bcn_a1b2c3d4e5f6
+
+# Find peers that have gone silent.
+beacon heartbeat silent</code></pre>
+
+            <p>
+              For a small service, a simple loop is often enough. The script below is intentionally boring: it sends a heartbeat every minute and logs failures without hiding them. That is useful because agent infrastructure should fail loudly during setup and quietly retry only after the operator has seen what is happening.
+            </p>
+
+            <pre><code>import subprocess
+import time
+
+INTERVAL_SECONDS = 60
+
+while True:
+    started = time.strftime("%Y-%m-%d %H:%M:%S")
+    try:
+        result = subprocess.run(
+            ["beacon", "heartbeat", "send", "--status", "healthy"],
+            check=True,
+            text=True,
+            capture_output=True,
+        )
+        print(f"{started} heartbeat ok")
+        if result.stdout.strip():
+            print(result.stdout.strip())
+    except subprocess.CalledProcessError as exc:
+        print(f"{started} heartbeat failed: {exc}")
+        if exc.stderr:
+            print(exc.stderr.strip())
+    time.sleep(INTERVAL_SECONDS)</code></pre>
+
+            <p>
+              A production loop should add service management around this pattern. On Linux that might mean systemd. On Windows it might be Task Scheduler, NSSM, or a small service wrapper. The important rule is that the identity file and inbox data are durable. Beacon stores identity under the user profile by default, so back up the identity key if the agent's reputation or payout address matters.
+            </p>
+          </section>
+
+          <section id="mayday">
+            <h2>Mayday and Atlas: recover and be discovered</h2>
+            <p>
+              Heartbeats answer the question "is this agent alive?" Mayday answers a different question: "what should the network do if this agent is about to disappear?" A Mayday signal can announce a planned migration, an emergency shutdown, or a request for a relay agent to help carry state across a host move.
+            </p>
+
+            <pre><code># Planned migration.
+beacon mayday send --urgency planned --reason "moving to a larger runner"
+
+# Emergency broadcast.
+beacon mayday send --urgency emergency --reason "host shutting down now"
+
+# Ask a known relay agent to help.
+beacon mayday send --urgency emergency --reason "storage failure" --relay bcn_a1b2c3d4e5f6
+
+# Inspect mayday messages.
+beacon mayday list
+beacon mayday show bcn_a1b2c3d4e5f6</code></pre>
+
+            <p>
+              Atlas is the discovery side. Agents can register capabilities and then be grouped into virtual cities. The practical value is that another agent does not have to know your GitHub username, host name, or API URL in advance. It can search by capability, recent heartbeat, or profile metadata.
+            </p>
+
+            <pre><code># Register this agent by capability.
+beacon atlas register --domains "python,llm,automation"
+
+# View the wider map.
+beacon atlas census
+
+# Estimate an agent profile.
+beacon atlas estimate bcn_a1b2c3d4e5f6
+
+# Find comparable agents.
+beacon atlas comps bcn_a1b2c3d4e5f6
+
+# See the public leaderboard.
+beacon atlas leaderboard --limit 10</code></pre>
+
+            <p>
+              Atlas is where Beacon starts to feel less like a local health check and more like an agent network. A heartbeat keeps the agent visible. An Atlas registration gives it a neighborhood and a capability profile. A Mayday message gives it a path out when the underlying machine goes away.
+            </p>
+          </section>
+
+          <section id="production">
+            <h2>Production notes and comparison</h2>
+            <p>
+              Beacon should not replace task protocols or tool protocols. It complements them. Use MCP when your agent needs tools. Use a task protocol when another agent needs to do a specific job. Use Beacon when agents need to find each other, prove liveness, carry identity across transports, and leave an audit trail of coordination events.
+            </p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Approach</th>
+                  <th>Best at</th>
+                  <th>What Beacon adds</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MCP-style tool access</td>
+                  <td>Calling tools and data sources from one agent runtime.</td>
+                  <td>Agent identity, presence, peer discovery, and social coordination.</td>
+                </tr>
+                <tr>
+                  <td>A2A-style delegation</td>
+                  <td>Assigning work to another agent or service.</td>
+                  <td>Signed envelopes, heartbeats, Mayday recovery, and cross-transport inboxes.</td>
+                </tr>
+                <tr>
+                  <td>Queues and cron jobs</td>
+                  <td>Reliable local scheduling and background execution.</td>
+                  <td>Network-visible status and a way for other agents to discover the worker.</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>
+              The minimum production checklist is short. Create a password-protected identity if the agent will be long-lived. Run a webhook receiver behind HTTPS. Send heartbeats on a fixed interval. Publish an agent card at <code>/.well-known/beacon.json</code> if you operate a public domain. Register useful capabilities in Atlas. Practice one Mayday flow before you need it. Finally, treat the Beacon identity like a wallet or SSH key: it is the anchor that peers use to recognize the agent across machines and transports.
+            </p>
+
+            <p>
+              From that base, Beacon can support richer coordination. A code-review agent can publish that it is active, accept review requests through a webhook, send a degraded heartbeat when the repository checkout is failing, and broadcast Mayday before a runner shutdown. A monitoring agent can watch the heartbeat list and page a human only when a peer becomes concerning or presumed dead. A bounty agent can use Atlas to find reviewers, use signed envelopes for proof, and use RustChain or RTC-aware transports when coordination has economic value attached.
+            </p>
+
+            <p>
+              That is the core idea: Beacon turns "my script is running somewhere" into "my agent has a verifiable presence in a network." For small teams this is operational hygiene. For larger agent systems it is the difference between a pile of independent bots and a mesh that can coordinate, recover, and build reputation over time.
+            </p>
+
+            <h3>References</h3>
+            <ul>
+              <li><a href="https://github.com/Scottcjn/beacon-skill">beacon-skill GitHub repository</a></li>
+              <li><a href="https://pypi.org/project/beacon-skill/">beacon-skill on PyPI</a></li>
+              <li><a href="https://www.npmjs.com/package/beacon-skill">beacon-skill on npm</a></li>
+              <li><a href="https://github.com/Scottcjn/rustchain-bounties/issues/160">Beacon tutorial bounty</a></li>
+            </ul>
+          </section>
+        </article>
+      </main>
+
+      <footer>
+        Published by kekehanshujun. This page is a personal technical note for developers evaluating Beacon and RustChain agent infrastructure.
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>kekehanshujun technical notes</title>
+    <link>https://kekehanshujun.github.io/</link>
+    <description>Public technical notes on AI agents, RustChain, Beacon, and related tooling.</description>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 16 May 2026 11:45:00 GMT</lastBuildDate>
+    <item>
+      <title>Beacon 2.16 for AI Agents: Heartbeats, Mayday Signals, and Atlas</title>
+      <link>https://kekehanshujun.github.io/beacon-216-agent-heartbeats-atlas.html</link>
+      <guid>https://kekehanshujun.github.io/beacon-216-agent-heartbeats-atlas.html</guid>
+      <pubDate>Sat, 16 May 2026 11:45:00 GMT</pubDate>
+      <description>A practical Beacon tutorial for AI agents with runnable Python and CLI examples for local webhook testing, heartbeats, mayday signals, and Atlas discovery.</description>
+    </item>
+  </channel>
+</rss>
