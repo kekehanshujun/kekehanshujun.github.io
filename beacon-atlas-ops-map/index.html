@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beacon Atlas Operations Map</title>
+  <meta name="description" content="Interactive Beacon Atlas operations map with live relay, contract, miner, and valuation data.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Beacon Atlas Operations Map</h1>
+      <p id="subtitle">Live city, relay, contract, miner, and valuation view</p>
+    </div>
+    <div class="status-strip" aria-live="polite">
+      <span id="status-dot" class="status-dot"></span>
+      <span id="status-text">Loading data</span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <aside class="sidebar" aria-label="Atlas controls">
+      <section class="panel">
+        <h2>Network</h2>
+        <div class="metric-grid">
+          <div><strong id="metric-agents">0</strong><span>Agents</span></div>
+          <div><strong id="metric-cities">0</strong><span>Cities</span></div>
+          <div><strong id="metric-contracts">0</strong><span>Contracts</span></div>
+          <div><strong id="metric-value">0</strong><span>RTC Value</span></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Filters</h2>
+        <label class="field">
+          <span>Search</span>
+          <input id="search" type="search" placeholder="agent, city, capability">
+        </label>
+
+        <label class="field">
+          <span>City</span>
+          <select id="city-filter">
+            <option value="all">All cities</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Agent role</span>
+          <select id="role-filter">
+            <option value="all">All roles</option>
+            <option value="relay">Beacon relay</option>
+            <option value="miner">RustChain miner</option>
+            <option value="external">External contract node</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Property type</span>
+          <select id="property-filter">
+            <option value="all">All property types</option>
+            <option value="compute lot">Compute lot</option>
+            <option value="relay booth">Relay booth</option>
+            <option value="contract vault">Contract vault</option>
+            <option value="sensor roof">Sensor roof</option>
+          </select>
+        </label>
+
+        <div class="toggle-row">
+          <label><input id="toggle-contracts" type="checkbox" checked> Contracts</label>
+          <label><input id="toggle-heartbeats" type="checkbox" checked> Heartbeats</label>
+          <label><input id="toggle-mayday" type="checkbox" checked> Mayday pulse</label>
+        </div>
+
+        <div class="button-row">
+          <button id="refresh" type="button">Refresh</button>
+          <button id="reset-view" type="button">Reset View</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Legend</h2>
+        <ul class="legend">
+          <li><span class="swatch relay"></span> Beacon relay agent</li>
+          <li><span class="swatch miner"></span> RustChain miner</li>
+          <li><span class="swatch external"></span> External contract endpoint</li>
+          <li><span class="line contract"></span> RTC contract</li>
+          <li><span class="line heartbeat"></span> Heartbeat</li>
+          <li><span class="line mayday"></span> Stale heartbeat / mayday</li>
+        </ul>
+      </section>
+    </aside>
+
+    <section class="map-wrap" aria-label="Beacon Atlas map">
+      <canvas id="atlas" width="1400" height="900"></canvas>
+      <div id="tooltip" class="tooltip" role="status"></div>
+    </section>
+
+    <aside class="details" aria-label="Selected item details">
+      <section class="panel detail-panel">
+        <h2 id="detail-title">Select an agent</h2>
+        <div id="detail-body" class="detail-body">
+          <p>Click a city, agent, property, or connection to inspect live status, valuation, and network links.</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Data Sources</h2>
+        <ul id="source-list" class="source-list">
+          <li>Beacon relay discovery</li>
+          <li>Beacon contract ledger</li>
+          <li>RustChain miners</li>
+          <li>Grazer package stats</li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
