@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RTC Token Distribution Analysis</title>
+    <meta name="description" content="Snapshot analysis of RustChain RTC token distribution using public miner, balance, stats, and epoch APIs.">
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #172033;
+        --muted: #5d687a;
+        --line: #d8e0ec;
+        --soft: #f5f7fb;
+        --accent: #0f766e;
+        --orange: #c2410c;
+        --blue: #2563eb;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--ink);
+        background: #fff;
+        line-height: 1.62;
+      }
+      header, main, footer {
+        width: min(980px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+      header {
+        padding: 42px 0 28px;
+        border-bottom: 1px solid var(--line);
+      }
+      h1 {
+        margin: 0;
+        max-width: 850px;
+        font-size: clamp(32px, 5vw, 54px);
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+      .lede {
+        max-width: 780px;
+        margin: 16px 0 0;
+        color: var(--muted);
+        font-size: 18px;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .meta span {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 5px 10px;
+        background: var(--soft);
+        color: var(--muted);
+        font-size: 14px;
+      }
+      main {
+        padding: 28px 0 56px;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px;
+        background: var(--soft);
+      }
+      .label {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+        text-transform: uppercase;
+      }
+      .value {
+        display: block;
+        margin-top: 8px;
+        font-size: clamp(22px, 4vw, 32px);
+        font-weight: 700;
+        line-height: 1.1;
+        overflow-wrap: anywhere;
+      }
+      h2 {
+        margin: 34px 0 12px;
+        font-size: 24px;
+        line-height: 1.25;
+      }
+      a { color: var(--accent); }
+      .note {
+        padding: 14px 16px;
+        border: 1px solid #fed7aa;
+        background: #fff7ed;
+        color: #7c2d12;
+        border-radius: 8px;
+      }
+      .chart {
+        margin: 18px 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        background: #fbfcfe;
+      }
+      svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 14px;
+        font-size: 14px;
+      }
+      th, td {
+        padding: 10px 8px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: var(--soft);
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+      .num { text-align: right; }
+      .wallet {
+        font-family: Consolas, "Courier New", monospace;
+        overflow-wrap: anywhere;
+      }
+      .bars {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .bar {
+        display: grid;
+        grid-template-columns: 130px minmax(0, 1fr) 90px;
+        gap: 10px;
+        align-items: center;
+        font-size: 14px;
+      }
+      .track {
+        height: 18px;
+        border-radius: 999px;
+        background: #e7edf6;
+        overflow: hidden;
+      }
+      .fill {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), var(--blue));
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 22px 0 36px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      @media (max-width: 760px) {
+        .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .bar { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 520px) {
+        .cards { grid-template-columns: 1fr; }
+        th:nth-child(3), td:nth-child(3) { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>RTC Token Distribution Analysis</h1>
+      <p class="lede">
+        A public, reproducible snapshot of RustChain wallet concentration using
+        the miner list, individual balance endpoint, stats endpoint, and epoch
+        supply endpoint available on May 16, 2026.
+      </p>
+      <div class="meta">
+        <span>Snapshot: 2026-05-16 08:05 UTC</span>
+        <span>Epoch 164</span>
+        <span>Supply: 8,388,608 RTC</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="cards">
+        <div class="card">
+          <span class="label">Node total balance</span>
+          <span class="value">437,075.35</span>
+        </div>
+        <div class="card">
+          <span class="label">Publicly resolved subset</span>
+          <span class="value">299,096.81</span>
+        </div>
+        <div class="card">
+          <span class="label">Gini, funded visible wallets</span>
+          <span class="value">0.6529</span>
+        </div>
+        <div class="card">
+          <span class="label">Known founder share of visible</span>
+          <span class="value">99.69%</span>
+        </div>
+      </section>
+
+      <p class="note">
+        Method note: `GET /api/balances` is protected by admin auth, so this
+        report does not claim to expose every ledger wallet. It combines
+        `GET /api/miners`, individual `GET /wallet/balance?miner_id=...`
+        lookups, public founder wallet IDs, `GET /api/stats`, and
+        `GET /epoch`. The node-level stats report 699 miner rows and
+        437,075.354584 RTC in balances; the public miner/founder set resolves
+        299,096.810642 RTC.
+      </p>
+
+      <h2>Top 10 Holders Excluding Founder Wallets</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Wallet</th>
+            <th class="num">Balance RTC</th>
+            <th class="num">Share of Visible Community</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td class="wallet">nox-ventures</td><td class="num">817.500000</td><td class="num">89.08%</td></tr>
+          <tr><td>2</td><td class="wallet">power8-s824-sophia</td><td class="num">89.101744</td><td class="num">9.71%</td></tr>
+          <tr><td>3</td><td class="wallet">RTC14f06ee294f327f5685d3de5e1ed501cffab33e7</td><td class="num">9.000000</td><td class="num">0.98%</td></tr>
+          <tr><td>4</td><td class="wallet">stepehenreed</td><td class="num">1.329332</td><td class="num">0.14%</td></tr>
+          <tr><td>5</td><td class="wallet">claw-qinlingrongdeMacBook-Pro-48097</td><td class="num">0.828822</td><td class="num">0.09%</td></tr>
+          <tr><td>6</td><td class="wallet">claw-pumba-MacBookPro-77693</td><td class="num">0.000000</td><td class="num">0.00%</td></tr>
+          <tr><td>7</td><td class="wallet">bb</td><td class="num">0.000000</td><td class="num">0.00%</td></tr>
+          <tr><td>8</td><td class="wallet">hermes-xeon-miner</td><td class="num">0.000000</td><td class="num">0.00%</td></tr>
+          <tr><td>9</td><td class="wallet">claw-wenkangdemini-29887</td><td class="num">0.000000</td><td class="num">0.00%</td></tr>
+          <tr><td>10</td><td class="wallet">RTCea1938bfeeb940a6fa831e84233c5a27956421ac</td><td class="num">0.000000</td><td class="num">0.00%</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Distribution Curve</h2>
+      <div class="chart">
+        <svg viewBox="0 0 720 390" role="img" aria-label="Lorenz curve for visible funded RTC wallets">
+          <rect x="0" y="0" width="720" height="390" rx="8" fill="#fbfcfe"></rect>
+          <line x1="58" y1="328" x2="664" y2="328" stroke="#9aa7b8"></line>
+          <line x1="58" y1="48" x2="58" y2="328" stroke="#9aa7b8"></line>
+          <polyline points="58,328 664,48" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="7 7"></polyline>
+          <polyline points="58,328 125,327.22 193,325.96 260,317.54 327,234.07 394,47.99 462,47.99 529,47.99 596,47.99 664,48" fill="none" stroke="#0f766e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+          <text x="58" y="360" fill="#5d687a" font-size="14">0% funded wallets</text>
+          <text x="524" y="360" fill="#5d687a" font-size="14">100% funded wallets</text>
+          <text x="14" y="52" fill="#5d687a" font-size="14">100% RTC</text>
+          <text x="500" y="72" fill="#5d687a" font-size="14">equality</text>
+          <text x="384" y="104" fill="#0f766e" font-size="14">visible funded set</text>
+        </svg>
+      </div>
+
+      <h2>Balance Buckets</h2>
+      <div class="bars">
+        <div class="bar"><span>0 RTC</span><span class="track"><span class="fill" style="width:100%"></span></span><strong>8 wallets</strong></div>
+        <div class="bar"><span>&lt; 1 RTC</span><span class="track"><span class="fill" style="width:12.5%"></span></span><strong>1 wallet</strong></div>
+        <div class="bar"><span>1-10 RTC</span><span class="track"><span class="fill" style="width:25%"></span></span><strong>2 wallets</strong></div>
+        <div class="bar"><span>10-100 RTC</span><span class="track"><span class="fill" style="width:12.5%"></span></span><strong>1 wallet</strong></div>
+        <div class="bar"><span>100-1,000 RTC</span><span class="track"><span class="fill" style="width:12.5%"></span></span><strong>1 wallet</strong></div>
+        <div class="bar"><span>&gt; 1,000 RTC</span><span class="track"><span class="fill" style="width:50%"></span></span><strong>4 wallets</strong></div>
+      </div>
+
+      <h2>Interpretation</h2>
+      <p>
+        The visible funded set is highly concentrated, but the concentration is
+        mostly explained by the documented founder reserves. Known founder
+        wallets account for 298,179.050744 RTC out of the 299,096.810642 RTC
+        public subset. Removing those founder wallets leaves 917.759898 RTC in
+        publicly resolved community balances, and the leading visible community
+        wallet, `nox-ventures`, holds 817.5 RTC.
+      </p>
+      <p>
+        This shape is normal for an early small-cap network before broad market
+        distribution: treasury, development, bounty, and liquidity wallets
+        dominate the chart, while active community balances are small and
+        lumpy. Compared with mature large-cap assets, the top-holder
+        concentration is high. Compared with many newly launched small-cap
+        tokens, the public founder labeling is a useful transparency advantage:
+        the largest buckets are named operational reserves rather than
+        unexplained anonymous holders.
+      </p>
+      <p>
+        The main risk is not the visible Gini coefficient by itself; it is the
+        gap between the public row-by-row data and the node aggregate. A fuller
+        analysis would need a public, paginated, non-sensitive balance export
+        or a signed snapshot file so researchers can reproduce the whole
+        437,075.354584 RTC balance total without admin credentials.
+      </p>
+
+      <h2>Reproducible Queries</h2>
+      <pre><code>curl -k https://50.28.86.131/api/stats
+curl https://rustchain.org/epoch
+curl -k https://50.28.86.131/api/miners
+curl -k "https://50.28.86.131/wallet/balance?miner_id=founder_dev_fund"</code></pre>
+    </main>
+
+    <footer>
+      Written by kekehanshujun for RustChain bounty #1113. RTC wallet:
+      RTC02811ff5e2bb4bb4b95eee44c5429cd9525496e7.
+    </footer>
+  </body>
+</html>
